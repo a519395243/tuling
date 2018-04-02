@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>聊天窗口</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <script src="./js/jquery-1.9.1.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div id="convo" data-from="Sonu Joshi">
+        <ul class="chat-thread">
+            <li class="left">找我干啥呢？亲</li>
+        </ul>
+        <div class="formstyle">
+            <form class="bs-example bs-example-form" role="form">
+                <div class="input-group input-group-lg">
+                    <input type="text" class="form-control" placeholder="点击输入">
+                    <span id="button" class="input-group-addon">发送</span>
+                </div>
+                <br>
+                <input type="text" style="display:none;">
+            </form>
+        </div>
+    </div>
+    <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+    </div>
+</body>
+
+</html>
+<script>
+$('#button').click(function() {
+    var form_val = $('.form-control').val();
+    $('.chat-thread').append('<li class="right">' + form_val + '</li>');
+    $('.form-control').val('');
+
+    $.post("./api.php", { info: form_val }, function(data) {
+        $('.chat-thread').append('<li class="left">' + data + '</li>');
+        $('.chat-thread').scrollTop($('.chat-thread')[0].scrollHeight);
+    });
+
+    $('.chat-thread').scrollTop($('.chat-thread')[0].scrollHeight);
+});
+
+var height = $(window).height() * 0.8;
+$('.chat-thread').css('height', height);
+</script>
